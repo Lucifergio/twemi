@@ -1,14 +1,13 @@
 package ru.twemi.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import ru.twemi.security.jwt.JwtConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -17,16 +16,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String LOGIN_ENDPOINT = "/auth/login";
-    public static final String USER_ENDPOINT = "/users";
+    public static final String USER_ENDPOINT = "/users"; //TODO Разрулить эндпоинты
     public static final String REGISTRATION_ENDPOINT = "/auth/register";
 
-//    private final JwtConfigurer jwtConfigurer;
-
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    private final JwtConfigurer jwtConfigurer;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -42,9 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 }
         );
 
-//        http.apply(jwtConfigurer);
+        http.apply(jwtConfigurer);
         http.httpBasic().disable();
         http.csrf().disable();
     }
-
 }
