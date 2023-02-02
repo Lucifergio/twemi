@@ -18,6 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String LOGIN_ENDPOINT = "/auth/login";
     public static final String USER_ENDPOINT = "/users"; //TODO Разрулить эндпоинты
     public static final String REGISTRATION_ENDPOINT = "/auth/register";
+    public static final String MESSAGE_ENDPOINT = "/message";
 
     private final JwtConfigurer jwtConfigurer;
 
@@ -31,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     requests.antMatchers(LOGIN_ENDPOINT).permitAll();
                     requests.antMatchers(REGISTRATION_ENDPOINT).permitAll();
                     requests.antMatchers(USER_ENDPOINT).permitAll();
+                    requests.antMatchers(MESSAGE_ENDPOINT).permitAll();
                     requests.anyRequest().authenticated();
                 }
         );
